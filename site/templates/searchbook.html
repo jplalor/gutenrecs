@@ -1,0 +1,13 @@
+{# searchbook.html #}
+{% extends "base.html" %}
+{% block body %}
+<div>
+    <form action="searchbook">
+    <input type="text" name="search" />
+    <input type="submit" value="Get Recommendations">
+    </form>
+</div>
+<div>
+{{ similarities | safe }}
+</div>
+{% endblock %}

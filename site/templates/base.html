@@ -1,0 +1,21 @@
+{# base.html #}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Gutenberg Recommendations</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    </head>
+    <body>
+    	<h2>Project Gutenberg Recommendations</h2>
+    	<p>
+    		Enter the file name you'd like recommendations for, and we'll find you some similar books
+    	</p>
+    	<p>
+    	Use <a href="http://www.gutenberg.org/dirs/GUTINDEX.ALL">this link</a> to get the ebook number for the book you are looking for.
+    	</p>
+    	
+        {% block body %}{% endblock %}
+    </body>
+</html>
