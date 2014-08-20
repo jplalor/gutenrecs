@@ -7,7 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 from flask import Flask, render_template, request
 app = Flask(__name__)
-
+app.debug = True
 
 def buildURL(filename):
     #if (filename.find('-') > -1):

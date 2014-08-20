@@ -2,6 +2,7 @@
 import os
 import io
 import scipy
+import scipy.io
 import numpy
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
