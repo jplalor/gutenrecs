@@ -7,7 +7,14 @@
     <input type="submit" value="Get Recommendations">
     </form>
 </div>
+<br />
 <div>
-{{ similarities | safe }}
+	<ul>
+		{% for a in similarities %}
+		<li>
+			<a href = "http://www.gutenberg.org/ebooks/{{ a[0] }}">{{ a[0] }}</a> (Sim score: {{ a[1] }})
+		</li>
+		{% endfor %}
+	</ul>
 </div>
 {% endblock %}

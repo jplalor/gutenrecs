@@ -10,12 +10,6 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 app.debug = True
 
-def buildURL(filename):
-    #if (filename.find('-') > -1):
-        #booknum = filename[:filename.index('-')]
-    #else:
-        #booknum = filename[:filename.index('.')]
-    return "http://www.gutenberg.org/ebooks/" + str(filename)
 
 def format_name(filename):
     if (filename.find('-') > -1):
@@ -33,10 +27,12 @@ def index():
 @app.route('/searchbook/', methods=['GET', 'POST'])
 def searchbook():
 	
-    indexfile = "C:\\Users\\Kaitlin\\Documents\\depaul\\gutenberg\\"
+    #indexfile = "C:\\Users\\Kaitlin\\Documents\\depaul\\gutenberg\\"
     loader = scipy.io.mmread("testfile.mtx")
 
     book_name = request.args.get('search','')
+
+    num_results = int(request.args.get('numhits',''))
 
     loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
     
@@ -50,13 +46,15 @@ def searchbook():
     # will need to load the book titles somehow
     
     similarities = cosine_similarity(new_matrix[choice:choice+1], new_matrix)
+    print(similarities)
+    books = similarities.argsort()[0][-(num_results+1):-1]
 
-    books = similarities.argsort()[0][-4:-1]
+    results = []
 
-    results = '#3: <a href=\"' + buildURL(doc_names[books[0]]) + '\" >' + doc_names[books[0]] + '</a> , #2: <a href=\"' + buildURL(doc_names[books[1]]) + '\" >' + doc_names[books[1]] + '</a>, #1: <a href=\"' + buildURL(doc_names[books[2]]) + '\" >' + doc_names[books[2]] + '</a>'
+    for i in reversed(books):
+        results.append([doc_names[i], similarities[0][i]])
     
     return render_template('searchbook.html', similarities=results)
-
 
 
 if __name__ == '__main__':
