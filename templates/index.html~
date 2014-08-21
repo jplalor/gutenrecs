@@ -4,11 +4,33 @@
 
    
     <form action="searchbook">
-        <input type="text" label="Book file number" name="search" />
+        Book file name: <input type="text" label="Book file number" name="search" />
         <br />
-        <input type="text" label="Number of results" name="numhits" />
+        
         <br />
         <input type="submit" value="Get Recommendations">
     </form>
+
+    <div>
+<br />
+    	A few suggestions:
+    	<ul>
+    		<li>
+    			A Kindergarten Story Book by Jane L. Hoxie - 14127
+    		</li>
+    		<li>
+    			The Merry Adventures of Robin Hood by Howard Pyle - 10148
+    		</li>
+    		<li>
+    			Bible Stories and Religious Classics by Philip P. Wells - 10380
+    		</li>
+    		<li>
+    			A General History and Collection of Voyages and Travels — Volume 09 by Robert Kerr - 13055
+    		</li>
+    		<li>
+    			Great Expectations by Charles Dickens - 1400
+    		</li>
+    	</ul>
+    </div>
 
 {% endblock %}
