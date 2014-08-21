@@ -4,10 +4,13 @@
 
 <br />
 <div>
+	<p>
+		Similar books to <a href = "http://www.gutenberg.org/ebooks/{{ selection }}">{{ selection }}</a> below. Click the link to download from Project Gutenberg.
+	</p>
 	<ul>
 		{% for a in similarities %}
 		<li>
-			<a href = "http://www.gutenberg.org/ebooks/{{ a[0] }}">{{ a[0] }}</a> (Sim score: {{ a[1] }})
+			<a href = "http://www.gutenberg.org/ebooks/{{ a[1] }}">{{ a[1] }}</a> (Sim score: {{ a[2] }})
 		</li>
 		{% endfor %}
 	</ul>

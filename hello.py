@@ -28,33 +28,33 @@ def index():
 def searchbook():
 	
     #indexfile = "C:\\Users\\Kaitlin\\Documents\\depaul\\gutenberg\\"
-    loader = scipy.io.mmread("testfile.mtx")
-
+    #original code to load and compute similarities on the fly.
+    #don't need it, but good for reference.
+#    loader = scipy.io.mmread("testfile.mtx")
+#    book_name = request.args.get('search','')
+#   num_results = int(request.args.get('numhits',''))
+#    loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
+#    doc_names_pre = loader2.tolist()
+#    doc_names = [format_name(x) for x in doc_names_pre]
+#    choice = doc_names.index(book_name)
+#    new_matrix = loader.tocsr()
+# will need to load the book titles somehow
+#    similarities = cosine_similarity(new_matrix[choice:choice+1], new_matrix)
+#    print(similarities)
+#    books = similarities.argsort()[0][-(num_results+1):-1]
+#    results = []
+#    for i in reversed(books):
+#        results.append([doc_names[i], similarities[0][i]])
     book_name = request.args.get('search','')
-
-    num_results = int(request.args.get('numhits',''))
-
-    loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
-    
-    doc_names_pre = loader2.tolist()
-
-    doc_names = [format_name(x) for x in doc_names_pre]
-
-    choice = doc_names.index(book_name)
-
-    new_matrix = loader.tocsr()
-    # will need to load the book titles somehow
-    
-    similarities = cosine_similarity(new_matrix[choice:choice+1], new_matrix)
-    print(similarities)
-    books = similarities.argsort()[0][-(num_results+1):-1]
-
     results = []
 
-    for i in reversed(books):
-        results.append([doc_names[i], similarities[0][i]])
-    
-    return render_template('searchbook.html', similarities=results)
+    similarities = numpy.loadtxt('similarities.txt', delimiter=',', dtype="string")
+
+    for a in similarities:
+        if(a[0] == book_name):
+            results.append(a)
+
+    return render_template('searchbook.html', similarities=results, selection = book_name)
 
 
 if __name__ == '__main__':
