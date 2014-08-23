@@ -1,4 +1,4 @@
-# code for doing necessary scikit-learn fun stuff
+# Import the necessary libraries
 import os
 import csv
 import numpy
@@ -16,17 +16,23 @@ corpus = []
 doc_names = []
 book_names = []
 
+#initialize the hashing vectorizer with the relevant settings
+#ignore decoding errors (like unknown characters)
+#use the standard stop word list for english
+#do not normalize the results (this will occur later)
 vectorizer = HashingVectorizer(decode_error='ignore', n_features=2 ** 18, 
                                 non_negative=True, stop_words='english', norm=None)
 
+#initialize the TFIDF Transformer
 transformer = TfidfTransformer()
 
 #then do the hard work
 
-
+#local directory to load books from (would need to be updated if run locally)
 outputdir = "C:\\Users\\John Lalor\\Documents\\DePaul\\ECT584\\gutenberg\\working\\"
 
 #outputdir = "C:\\Users\\Kaitlin\\Documents\\depaul\\gutenberg\\reprojectsteps\\"
+
 
 count = 0
 total = 0
@@ -34,6 +40,7 @@ run = 1
 first_run = True
 print "Begin file loads"
 
+#load in 5000 books, so that the resulting matrix can be loaded and used.
 for f in os.listdir(outputdir):
     total += 1
     fpath = os.path.join(outputdir, f)
@@ -44,7 +51,9 @@ for f in os.listdir(outputdir):
         if (os.path.isfile(fpath)):
             with open(fpath) as f2:
                 content = f2.readlines()
+                #set the book content as a string
                 content = ', '.join(content)
+                #append the content to the working corpus
                 corpus.append(content)
                 doc_names.append(f)
                 book_names.append(content[:50])
@@ -58,6 +67,7 @@ for f in os.listdir(outputdir):
                     run += 1
                     #processCorpus(corpus, first_run)
                     print "transform"
+                    #perform the hashing vectorization on the working corpus
                     z = vectorizer.transform(corpus)
                     if(first_run):
                         working_matrix = z
@@ -65,6 +75,7 @@ for f in os.listdir(outputdir):
                         first_run = False
                         #print (working_matrix)
                     else:
+                        #append the new matrix to the existing compilation of the matrix
                         print "stacking..."
                         working_matrix = vstack([working_matrix,z])
                         #scipy.io.mmwrite("testfile",working_matrix)
@@ -74,50 +85,19 @@ for f in os.listdir(outputdir):
 #need to catch the last few files
 z = vectorizer.transform(corpus)
 working_matrix = vstack([working_matrix,z])
+
+#this is commented out as it is a huge memory drain, and unneccessary at this point
 #scipy.io.mmwrite("testfile",working_matrix)
+#perform the tfidf transformation on the entire term count matrix
 tfidf_model = transformer.fit_transform(working_matrix)
-                    #if(first_run):
- 
-                    #else:
-                        #working_matrix = vstack([working_matrix,z])
+                    
 
 
-#scipy.io.mmwrite("testfile",working_matrix)
+#write the results to disk to be used in gutenberg-similarity.py
 scipy.io.mmwrite("tfidf_file",tfidf_model)
 numpy.savetxt("book_names.txt",book_names,delimiter = ',', fmt="%s")
 numpy.savetxt("doc_names.txt",doc_names,delimiter = ',', fmt="%s")
 
-
-def format_name(filename):
-    if (filename.find('-') > -1):
-        booknum = filename[:filename.index('-')]
-    else:
-        booknum = filename[:filename.index('.')]
-    return str(booknum)
-print "loading matrix"
-#loader = scipy.io.mmread("testfile_old.mtx")
-new_matrix = tfidf_model.tocsr()
-
-print "loading books"
-loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
-
-print "convert to list"
-doc_names_pre = loader2.tolist()
-
-print "formatting"
-doc_names = [format_name(x) for x in doc_names_pre]
-
-count = 0
-results = []
-for book in doc_names:
-    similarities = cosine_similarity(new_matrix[count:count+1], new_matrix)
-    #20 results per book
-    books = similarities.argsort()[0][-21:-1]
-    for i in reversed(books):
-        results.append([book, doc_names[i], similarities[0][i]])
-    count +=1
-
-numpy.savetxt("similarities.txt",results,delimiter = ',', fmt="%s")
 
 
 
