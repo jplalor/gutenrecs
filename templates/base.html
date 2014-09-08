@@ -6,8 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.0/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.0/angular-route.js"></script>
+        <script src="{{  bootstrap  }}"></script>
+        <script src="{{  bootstraptpls  }}"></script>
+        <script src="{{  controller  }}"></script>
+        <link rel="stylesheet" href="{{ style }}">
     </head>
-    <body>
+    <body >
     	<h2>Project Gutenberg Recommendations</h2>
     	<p>
     		Enter the file name you'd like recommendations for, and we'll find you some similar books. 
@@ -15,7 +21,8 @@
     	<p>
     	Use <a href="http://www.gutenberg.org/dirs/GUTINDEX.ALL">this link</a> to get the ebook number for the book you are looking for. (Most books with first digit of '1' are included in index)
     	</p>
-    	
+    	<div ng-app="gutenrecsApp" ng-controller="MainController">
         {% block body %}{% endblock %}
+        </div>
     </body>
 </html>
