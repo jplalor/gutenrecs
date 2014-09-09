@@ -10,11 +10,30 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 from flask import Flask, render_template, request, url_for, jsonify
 from werkzeug import secure_filename
+from flask.ext.sqlalchemy import SQLAlchemy, desc
 
 app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'app.db')
+
+db = SQLAlchemy(app)
+
 #app.debug = True
 
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), unique=False)
+    author = db.Column(db.String(200), unique=False)
+    downloads = db.Column(db.Integer, unique=False)
 
+    def __init__(self, id, title, author, downloads):
+        self.id = id
+        self.title = title
+        self.author = author
+        self.downloads = downloads
+
+    def __repr__(self):
+        return '<Book %r>' % self.title
 
 @app.route('/')
 def index():	
@@ -51,18 +70,11 @@ def searchbook():
 
 @app.route('/getbooks/', methods=['GET','POST'])
 def getbooks(text):
-    csvfile =  open('metadata.csv', 'rb') 
-    count = 0
-    
-    fieldnames = ('BookID','Title','Author','Downloads')
-    reader = csv.DictReader(csvfile, fieldnames)
-    out = json.dumps([row for row in reader ])
-    #return jsonify(**reader)
-    return out
-    #    return flask.jsonify(reader)
-    #    summary = do_summary_on_file(csv)
-        #return reader
-        #return jsonify(csv_name=csvfile)
+    results = []
+    books = Book.filter((Book.title.beginswith(text))|(Book.author.beginswith(text))).order_by(desc(User.downloads).limit(20).all()
+    for book in books:
+        results.add(book.id, book.title, book.author)
+    return results
 
 if __name__ == '__main__':
     app.run(debug=True)
