@@ -9,8 +9,7 @@ import json
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 from flask import Flask, render_template, request, url_for, jsonify
-from werkzeug import secure_filename
-from flask.ext.sqlalchemy import SQLAlchemy, desc
+from flask.ext.sqlalchemy import SQLAlchemy #, desc
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -71,7 +70,7 @@ def searchbook():
 @app.route('/getbooks/', methods=['GET','POST'])
 def getbooks(text):
     results = []
-    books = Book.filter((Book.title.beginswith(text))|(Book.author.beginswith(text))).order_by(desc(User.downloads).limit(20).all()
+    books = Book.filter((Book.title.beginswith(text))|(Book.author.beginswith(text))).order_by(desc(User.downloads)).limit(20).all()
     for book in books:
         results.add(book.id, book.title, book.author)
     return results

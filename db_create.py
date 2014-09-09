@@ -4,6 +4,12 @@ import os, csv
 from flask.ext.sqlalchemy import sqlalchemy
 from hello import db, Book
 
+#conn = sqlite3.connect(db)
+#c = conn.cursor()
+#c.execute("DROP TABLE IF EXISTS book")
+#c.execute("CREATE TABLE id INTEGER NOT NULL, title VARCHAR(200), author VARCHAR(200), \
+#    downloads INTEGER, PRIMARY KEY(id)")
+
 with open('metadata.csv', 'rb') as csvfile:
     dbreader = csv.reader(csvfile)
     for row in dbreader:
@@ -15,6 +21,6 @@ with open('metadata.csv', 'rb') as csvfile:
 
         book = Book(bookid, booktitle, bookauthor, bookdownloads)
         db.session.add(book)
-        db.session.commit()
+    db.session.commit()
 
 Book.query.all()
