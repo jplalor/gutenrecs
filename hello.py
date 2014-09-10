@@ -10,6 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 from flask import Flask, render_template, request, url_for, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy #, desc
+from sqlalchemy import desc
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -32,14 +33,20 @@ class Book(db.Model):
         self.downloads = downloads
 
     def __repr__(self):
-        return '<Book %r>' % self.title
+        return '<%r by %r>' % (self.title,  self.author)
+
+    def to_json(self):
+        return dict(id=self.id,
+                    title=self.title,
+                    author=self.author,
+                    downloads=self.downloads)
 
 @app.route('/')
 def index():	
     style = url_for('static', filename='site.css')
     controller = url_for('static', filename='controller.js')
     bootstrap = url_for('static', filename='ui-bootstrap-0.9.0.min.js')
-    bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.9.0.min.js')
+    bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.11.0.min.js')
     
     return render_template('index.html',
         controller=controller,
@@ -49,11 +56,12 @@ def index():
         )
 
 
-@app.route('/searchbook/', methods=['GET', 'POST'])
-def searchbook():
+@app.route('/searchbook/<bookid>', methods=['GET', 'POST'])
+def searchbook(bookid):
 	
     #load in the searched book id
-    book_name = request.args.get('search','')
+    #book_name = request.args.get('search','')
+    book_name = bookid
     results = []
 
     #load the similarities flat file
@@ -67,13 +75,17 @@ def searchbook():
     #return the results to the page (to be rendered by the template engine)
     return render_template('searchbook.html', similarities=results, selection = book_name)
 
-@app.route('/getbooks/', methods=['GET','POST'])
+@app.route('/getbooks/<text>', methods=['GET','POST'])
 def getbooks(text):
     results = []
-    books = Book.filter((Book.title.beginswith(text))|(Book.author.beginswith(text))).order_by(desc(User.downloads)).limit(20).all()
+    books = Book.query.filter((Book.title.startswith(text))|(Book.author.startswith(text))).order_by(desc(Book.downloads)).limit(20).all()
+    #print books.to_json()
     for book in books:
-        results.add(book.id, book.title, book.author)
-    return results
+        #print book.to_json()
+        results.append(book.to_json())
+    #result = [b.__dict__ for b in books]
+    #return jsonify(result=result)
+    return jsonify(data=results)
 
 if __name__ == '__main__':
     app.run(debug=True)

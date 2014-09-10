@@ -4,7 +4,7 @@
 
    
     <form action="searchbook">
-        Book file name: <input type="text" label="Book file number" ng-model="bookchoice" name="search" typeahead="book.Title for book in getBooks($viewValue)"/>
+        Book file name: <input type="text" ng-model="bookchoice" typeahead="book.id as book.title for book in getBooks($viewValue)" typeahead-editable="true" />
         <br />
         
         <br />

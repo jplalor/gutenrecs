@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('gutenrecsApp', ['ui.bootstrap', 'ngRoute' ])
-    .controller('MainController', ['$scope', '$http',
+    .controller('MyController', ['$scope', '$http',
         function($scope, $http) {
-            alert("hello");
-
+            $scope.bookchoice = "";
             $scope.CSVToArray = function(strData, strDelimiter) {
                 // Check to see if the delimiter is defined. If not,
                 // then default to comma.
@@ -77,18 +76,27 @@ angular.module('gutenrecsApp', ['ui.bootstrap', 'ngRoute' ])
             }
             
             $scope.getBooks = function(partial){
-                return $http.get('/getbooks', {
-                    params: {
-                        text: partial
-                    }
+                return $http.get('/getbooks/'+partial, {
+                    //params: {
+                    //    text: partial
+                    //}
                 }
                 ).then(function(response){
                     var books = [];
-                    angular.forEach(res.data, function(item){
+                    //console.log(response.data.data)
+                    angular.forEach(response.data.data, function(item){
                         books.push(item);
                     });
+                    //console.log(books);
                     return books;
                 });
+            };
+
+            $scope.searchBook = function(bookid){
+                //return $http.get('/searchbook/'+bookid);
+                alert("searching book " +bookid);
+                var bookid = $scope.bookchoice.id;
+                window.location.href = '/searchbook/'+bookid;
             };
 
             //$http.get('/getbooks/').success(function(response) {
