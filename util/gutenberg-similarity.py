@@ -23,7 +23,7 @@ def format_name(filename):
 
 #The rest of this script imports the TF-IDF matrix and calculates the recommendations
 print "loading matrix"
-loader = scipy.io.mmread("testfile_old.mtx")
+loader = scipy.io.mmread("/home/ubuntu/gutenrecs/util/testfile_old.mtx")
 
 #convert the matrix to a sparse matrix using scipy
 print "converting matrix"
