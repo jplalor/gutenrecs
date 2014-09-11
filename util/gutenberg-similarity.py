@@ -9,6 +9,7 @@ from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import vstack, csr_matrix
+from scipy import io
 
 #This function standardizes the book ids based on the filename.
 #some files include a -8 or -old based on their version, and they need to be removed
@@ -25,28 +26,33 @@ print "loading matrix"
 loader = scipy.io.mmread("testfile_old.mtx")
 
 #convert the matrix to a sparse matrix using scipy
+print "converting matrix"
 new_matrix = loader.tocsr()
 
 #load the book names so that we can match rows in the matrix with the book id
-print "loading books"
-loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
+#print "loading books"
+#loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
 
-print "convert to list"
-doc_names_pre = loader2.tolist()
+#print "convert to list"
+#doc_names_pre = loader2.tolist()
 
-print "formatting"
-doc_names = [format_name(x) for x in doc_names_pre]
+#print "formatting"
+#doc_names = [format_name(x) for x in doc_names_pre]
 
 #calculate the cosine similarities and find the 20 highest recommendations
+print "start the similarity calculations"
 count = 0
 results = []
-for book in doc_names:
+#for book in doc_names:
+for a in new_matrix:
+    print "current count: " + str(count)
     similarities = cosine_similarity(new_matrix[count:count+1], new_matrix)
-    #20 results per book
+    #10 results per book
     #ignore the first result, which is the book itself (similarity of 1)
-    books = similarities.argsort()[0][-21:-1]
+    books = similarities.argsort()[0][-11:-1]
     for i in reversed(books):
-        results.append([book, doc_names[i], similarities[0][i]])
+        results.append([i, similarities[0][i]])
+        #results.append([book, doc_names[i], similarities[0][i]])
     count +=1
 
 #save the output file.
