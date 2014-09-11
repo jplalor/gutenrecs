@@ -5,7 +5,6 @@ MarkupSafe==0.23
 PyYAML==3.11
 SQLAlchemy==0.9.7
 Werkzeug==0.9.6
-apkg==v1.1.1
 html5lib==1.0b3
 isodate==0.5.0
 itsdangerous==0.24
