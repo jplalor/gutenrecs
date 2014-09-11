@@ -15,7 +15,7 @@ pycosat==0.6.0
 pyparsing==2.0.2
 rdflib==4.1.2
 scikit-learn==0.15.1
-scipy==0.14.0
+scipy==0.11.0
 six==1.7.3
 sparqlwrapper==1.6.2
 wsgiref==0.1.2
