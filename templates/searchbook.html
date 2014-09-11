@@ -10,7 +10,7 @@
 	<ul>
 		{% for a in similarities %}
 		<li>
-			<a href = "http://www.gutenberg.org/ebooks/{{ a[1] }}">{{ a[1] }}</a> (Sim score: {{ a[2] }})
+			<a href = "http://www.gutenberg.org/ebooks/{{ a.id }}">{{ a.title }}</a> by  {{ a.author }}
 		</li>
 		{% endfor %}
 	</ul>

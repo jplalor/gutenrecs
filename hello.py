@@ -45,13 +45,13 @@ class Book(db.Model):
 def index():	
     style = url_for('static', filename='site.css')
     controller = url_for('static', filename='controller.js')
-    bootstrap = url_for('static', filename='ui-bootstrap-0.9.0.min.js')
-    bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.11.0.min.js')
+    bootstrap = url_for('static', filename='ui-bootstrap-0.10.0.js')
+    bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.9.0.min.js')
     
     return render_template('index.html',
         controller=controller,
         style=style,
-        bootstrap=bootstrap,
+        #bootstrap=bootstrap,
         bootstraptpls=bootstraptpls
         )
 
@@ -63,6 +63,7 @@ def searchbook(bookid):
     #book_name = request.args.get('search','')
     book_name = bookid
     results = []
+    searched_book = Book.query.filter_by(id=bookid).first().title
 
     #load the similarities flat file
     similarities = numpy.loadtxt('similarities.txt', delimiter=',', dtype="string")
@@ -70,10 +71,11 @@ def searchbook(bookid):
     #find all similarities for the given book (20 per book)
     for a in similarities:
         if(a[0] == book_name):
-            results.append(a)
+            book_result = Book.query.filter_by(id=a[1]).first()
+            results.append(book_result.to_json())
 
     #return the results to the page (to be rendered by the template engine)
-    return render_template('searchbook.html', similarities=results, selection = book_name)
+    return render_template('searchbook.html', similarities=results, selection = searched_book)
 
 @app.route('/getbooks/<text>', methods=['GET','POST'])
 def getbooks(text):

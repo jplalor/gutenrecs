@@ -22,10 +22,10 @@ angular.module('gutenrecsApp', ['ui.bootstrap', 'ngRoute' ])
                 });
             };
 
-            $scope.searchBook = function(bookid){
+            $scope.searchBook = function(){
                 //return $http.get('/searchbook/'+bookid);
-                alert("searching book " +bookid);
-                var bookid = $scope.bookchoice.id;
+                var bookid = $scope.bookchoice;
+                //alert("searching book " +bookid);
                 window.location.href = '/searchbook/'+bookid;
             };
 
