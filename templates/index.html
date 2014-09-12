@@ -2,35 +2,12 @@
 {% extends "base.html" %}
 {% block body %}
 
-   
-    <form action="searchbook">
-        Book file name: <input type="text" ng-model="bookchoice" typeahead="book.id as book.title for book in getBooks($viewValue)" typeahead-editable="true" typeahead-on-select="searchBook()"/>
-        <br />
-        
-        <br />
-        <input type="submit" value="Get Recommendations">
-    </form>
-
-    <div>
-	<br />
-    	A few suggestions:
-    	<ul>
-    		<li>
-    			A Kindergarten Story Book by Jane L. Hoxie - 14127
-    		</li>
-    		<li>
-    			The Merry Adventures of Robin Hood by Howard Pyle - 10148
-    		</li>
-    		<li>
-    			Bible Stories and Religious Classics by Philip P. Wells - 10380
-    		</li>
-    		<li>
-    			A General History and Collection of Voyages and Travels — Volume 09 by Robert Kerr - 13055
-    		</li>
-    		<li>
-    			Great Expectations by Charles Dickens - 1400
-    		</li>
-    	</ul>
-    </div>
+<h2>John Lalor</h2>
+<p>
+About me: My name is John.
+</p>
+<p>
+	<a href="/gutenrecs">Gutenrecs: Book recommendations for Project Gutenberg</a>
+</p>
 
 {% endblock %}

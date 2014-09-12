@@ -51,13 +51,28 @@ def index():
     return render_template('index.html',
         controller=controller,
         style=style,
-        #bootstrap=bootstrap,
         bootstraptpls=bootstraptpls
-        )
+    )
 
+@app.route('/gutenrecs')
+def gutenrecs():	 
+    style = url_for('static', filename='site.css')
+    controller = url_for('static', filename='controller.js')
+    bootstrap = url_for('static', filename='ui-bootstrap-0.10.0.js')
+    bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.9.0.min.js')
+    
+    return render_template('gutenrecs.html',
+        controller=controller,
+        style=style,
+        bootstraptpls=bootstraptpls
+    )
 
 @app.route('/searchbook/<bookid>', methods=['GET', 'POST'])
 def searchbook(bookid):
+    style = url_for('static', filename='site.css')
+    controller = url_for('static', filename='controller.js')
+    bootstrap = url_for('static', filename='ui-bootstrap-0.10.0.js')
+    bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.9.0.min.js')
 	
     #load in the searched book id
     #book_name = request.args.get('search','')
@@ -75,7 +90,11 @@ def searchbook(bookid):
             results.append(book_result.to_json())
 
     #return the results to the page (to be rendered by the template engine)
-    return render_template('searchbook.html', similarities=results, selection = searched_book)
+    return render_template('searchbook.html', similarities=results, selection = searched_book,
+	controller=controller,
+    style=style,
+    bootstraptpls=bootstraptpls
+	)
 
 @app.route('/getbooks/<text>', methods=['GET','POST'])
 def getbooks(text):
