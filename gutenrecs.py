@@ -47,7 +47,7 @@ def index():
     controller = url_for('static', filename='controller.js')
     bootstrap = url_for('static', filename='ui-bootstrap-0.10.0.js')
     bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.9.0.min.js')
-    
+	
     return render_template('index.html',
         controller=controller,
         style=style,
@@ -60,11 +60,13 @@ def gutenrecs():
     controller = url_for('static', filename='controller.js')
     bootstrap = url_for('static', filename='ui-bootstrap-0.10.0.js')
     bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.9.0.min.js')
+    writeup = url_for('static', filename='Lalor_Writeup.pdf')
     
     return render_template('gutenrecs.html',
         controller=controller,
         style=style,
-        bootstraptpls=bootstraptpls
+        bootstraptpls=bootstraptpls,
+	    writeup=writeup
     )
 
 @app.route('/searchbook/<bookid>', methods=['GET', 'POST'])
@@ -109,5 +111,5 @@ def getbooks(text):
     return jsonify(data=results)
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    app.run()
+    app.run(debug=True)
+    #app.run()
