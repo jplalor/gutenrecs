@@ -2,7 +2,7 @@
 
 import os, csv
 from flask.ext.sqlalchemy import sqlalchemy
-from hello import db, Book
+from gutenrecs import db, Book
 
 #conn = sqlite3.connect(db)
 #c = conn.cursor()
@@ -17,9 +17,10 @@ with open('metadata.csv', 'rb') as csvfile:
         booktitle = unicode(row[1], encoding='utf-8')
         bookauthor = unicode(row[2], encoding='utf-8')
         bookdownloads = unicode(row[3], encoding='utf-8')
+        bookdisplay = booktitle + ' by ' + bookauthor
         print 'writing book id: ' + bookid + 'to database'
 
-        book = Book(bookid, booktitle, bookauthor, bookdownloads)
+        book = Book(bookid, booktitle, bookauthor, bookdownloads, bookdisplay)
         db.session.add(book)
     db.session.commit()
 

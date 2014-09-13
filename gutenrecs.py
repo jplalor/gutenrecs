@@ -25,12 +25,14 @@ class Book(db.Model):
     title = db.Column(db.String(200), unique=False)
     author = db.Column(db.String(200), unique=False)
     downloads = db.Column(db.Integer, unique=False)
+    display = db.Column(db.String(300), unique=False)
 
-    def __init__(self, id, title, author, downloads):
+    def __init__(self, id, title, author, downloads, display):
         self.id = id
         self.title = title
         self.author = author
         self.downloads = downloads
+        self.display = display
 
     def __repr__(self):
         return '<%r by %r>' % (self.title,  self.author)
@@ -39,7 +41,8 @@ class Book(db.Model):
         return dict(id=self.id,
                     title=self.title,
                     author=self.author,
-                    downloads=self.downloads)
+                    downloads=self.downloads,
+                    display=self.display)
 
 @app.route('/')
 def index():	
