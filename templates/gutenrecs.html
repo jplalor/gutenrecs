@@ -19,16 +19,17 @@
 	<p>
 		Enter the book or author last name you'd like recommendations for, and we'll find you some similar books. 
 	</p>
+	<br />
 	<form action="searchbook">
         Book name: <input type="text" ng-model="bookchoice" typeahead="book.id as book.display for book in getBooks($viewValue)" typeahead-editable="true" typeahead-on-select="searchBook()"/>
         <br />
         
         <br />
-        <input type="submit" value="Get Recommendations">
+        <!--<input type="submit" value="Get Recommendations">-->
     </form>
 
     <div>
-	<br />
+	
     	A few suggestions:
     	<ul>
     		<li>
