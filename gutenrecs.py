@@ -49,7 +49,7 @@ def index():
     controller = url_for('static', filename='controller.js')
     bootstrap = url_for('static', filename='ui-bootstrap-0.10.0.js')
     bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.9.0.min.js')
-	network_writeup = url_for('static', filename='networks_MLB.pdf')
+    network_writeup = url_for('static', filename='networks_MLB.pdf')
 	
     return render_template('index.html',
         controller=controller,
