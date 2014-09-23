@@ -9,6 +9,8 @@ from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import vstack, csr_matrix
+from sklearn.decomposition import TruncatedSVD
+from scipy import io
 
 
 # need to loop through the files and create a list of content
@@ -24,12 +26,18 @@ vectorizer = HashingVectorizer(decode_error='ignore', n_features=2 ** 18,
                                 non_negative=True, stop_words='english', norm=None)
 
 #initialize the TFIDF Transformer
-transformer = TfidfTransformer()
+#transformer = TfidfTransformer()
+
+#initialize LSA transformer
+transformer = TruncatedSVD(n_components=100)
 
 #then do the hard work
 
 #local directory to load books from (would need to be updated if run locally)
-outputdir = "C:\\Users\\John Lalor\\Documents\\DePaul\\ECT584\\gutenberg\\working\\"
+#outputdir = "C:\\Users\\John Lalor\\Documents\\DePaul\\ECT584\\gutenberg\\working\\"
+
+outputdir = "C:\\Users\\jlalor\\Documents\\books\\"
+
 
 #outputdir = "C:\\Users\\Kaitlin\\Documents\\depaul\\gutenberg\\reprojectsteps\\"
 
@@ -84,17 +92,20 @@ for f in os.listdir(outputdir):
         print e
 #need to catch the last few files
 z = vectorizer.transform(corpus)
-working_matrix = vstack([working_matrix,z])
+#working_matrix = vstack([working_matrix,z])
+working_matrix = z
+
 
 #this is commented out as it is a huge memory drain, and unneccessary at this point
 #scipy.io.mmwrite("testfile",working_matrix)
 #perform the tfidf transformation on the entire term count matrix
-tfidf_model = transformer.fit_transform(working_matrix)
-                    
+#tfidf_model = transformer.fit_transform(working_matrix)
+lda_model = transformer.fit_transform(working_matrix)                   
 
 
 #write the results to disk to be used in gutenberg-similarity.py
-scipy.io.mmwrite("tfidf_file",tfidf_model)
+lda_file_sparse = scipy.sparse.csr_matrix(lda_model)
+scipy.io.mmwrite("lda_file",lda_file_sparse)
 numpy.savetxt("book_names.txt",book_names,delimiter = ',', fmt="%s")
 numpy.savetxt("doc_names.txt",doc_names,delimiter = ',', fmt="%s")
 

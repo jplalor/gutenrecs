@@ -23,12 +23,14 @@ def format_name(filename):
 
 #The rest of this script imports the TF-IDF matrix and calculates the recommendations
 print "loading matrix"
-loader = scipy.io.mmread("/home/ubuntu/gutenrecs/util/testfile_old.mtx")
+#loader = scipy.io.mmread("/home/ubuntu/gutenrecs/util/testfile_old.mtx")
+loader = scipy.io.mmread("C:\\Users\\jlalor\\Documents\\gutenrecs\\util\\lda_file.mtx")
+
 
 #convert the matrix to a sparse matrix using scipy
 print "converting matrix"
 new_matrix = loader.tocsr()
-
+#new_matrix = loader
 #load the book names so that we can match rows in the matrix with the book id
 #print "loading books"
 #loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
@@ -44,16 +46,16 @@ print "start the similarity calculations"
 count = 0
 results = []
 #for book in doc_names:
-for a in new_matrix:
+while count < 4:
     print "current count: " + str(count)
     similarities = cosine_similarity(new_matrix[count:count+1], new_matrix)
     #10 results per book
     #ignore the first result, which is the book itself (similarity of 1)
     books = similarities.argsort()[0][-11:-1]
     for i in reversed(books):
-        results.append([i, similarities[0][i]])
+        results.append([count,i, similarities[0][i]])
         #results.append([book, doc_names[i], similarities[0][i]])
     count +=1
 
 #save the output file.
-numpy.savetxt("similarities.txt",doc_names,delimiter = ',', fmt="%s")
+numpy.savetxt("similarities.txt",results,delimiter = ',', fmt="%s")
