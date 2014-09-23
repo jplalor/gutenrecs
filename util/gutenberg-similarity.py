@@ -10,6 +10,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import vstack, csr_matrix
 from scipy import io
+from gutenrecs import db, Bookrec
 
 #This function standardizes the book ids based on the filename.
 #some files include a -8 or -old based on their version, and they need to be removed
@@ -33,14 +34,14 @@ new_matrix = loader.tocsr()
 #new_matrix = loader
 #load the book names so that we can match rows in the matrix with the book id
 print "loading books"
-loader2 = numpy.loadtxt('book_names.txt', delimiter=',', dtype="string")
+loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
 
 #print "convert to list"
 doc_names_pre = loader2.tolist()
 
 #print "formatting"
-#doc_names = [format_name(x) for x in doc_names_pre]
-doc_names = doc_names_pre
+doc_names = [format_name(x) for x in doc_names_pre]
+#doc_names = doc_names_pre
 
 #calculate the cosine similarities and find the 20 highest recommendations
 print "start the similarity calculations"
@@ -55,8 +56,13 @@ while count < 4:
     books = similarities.argsort()[0][-11:-1]
     for i in reversed(books):
         results.append([doc_names[count],doc_names[i], similarities[0][i]])
+        simScore = Bookrec(doc_names[count],doc_names[i], similarities[0][i])
+        db.session.add(simScore)
         #results.append([book, doc_names[i], similarities[0][i]])
     count +=1
+db.session.commit()
 
 #save the output file.
 numpy.savetxt("similarities.txt",results,delimiter = ',', fmt="%s")
+
+BookRec.query.all()
