@@ -42,6 +42,24 @@ class Book(db.Model):
                     author=self.author,
                     downloads=self.downloads,
                     display=self.display)
+					
+class BookRecs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+	recID = db.Column(db.Integer, unique=False)
+	similarityScore = db.Column(db.Float, unique=False)
+	
+	def __init__(self, id, recID, simScore):
+	    self.id = id
+        self.recID = recID
+        self.similarityScore = simScore
+		
+    def __repr__(self):
+        return '<%r and %r, %r>' % (self.id, self.recID, self.similarityScore)
+		
+    def to_json(self):
+        return dict(id=self.id,
+                    recID = self.recID,
+					simScore = self.similarityScore)
 
 @app.route('/')
 def index():	

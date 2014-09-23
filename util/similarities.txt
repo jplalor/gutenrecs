@@ -1,12 +1,12 @@
-0.0,2.0,0.915359084106
-0.0,1.0,0.467706726745
-0.0,3.0,0.354527393605
-1.0,2.0,0.582012814954
-1.0,3.0,0.47119117027
-1.0,0.0,0.467706726745
-2.0,0.0,0.915359084106
-2.0,1.0,0.582012814954
-2.0,3.0,0.413811620275
-3.0,1.0,0.47119117027
-3.0,2.0,0.413811620275
-3.0,0.0,0.354527393605
+﻿Project Gutenberg's The Return of Sherlock Holm,﻿Project Gutenberg's The Adventures of Sherlock ,0.915359084106
+﻿Project Gutenberg's The Return of Sherlock Holm,The Project Gutenberg EBook of A Kindergarten Stor,0.467706726745
+﻿Project Gutenberg's The Return of Sherlock Holm,Project Gutenberg's The Girl and the Kingdom,0.354527393605
+The Project Gutenberg EBook of A Kindergarten Stor,﻿Project Gutenberg's The Adventures of Sherlock ,0.582012814954
+The Project Gutenberg EBook of A Kindergarten Stor,Project Gutenberg's The Girl and the Kingdom,0.47119117027
+The Project Gutenberg EBook of A Kindergarten Stor,﻿Project Gutenberg's The Return of Sherlock Holm,0.467706726745
+﻿Project Gutenberg's The Adventures of Sherlock ,﻿Project Gutenberg's The Return of Sherlock Holm,0.915359084106
+﻿Project Gutenberg's The Adventures of Sherlock ,The Project Gutenberg EBook of A Kindergarten Stor,0.582012814954
+﻿Project Gutenberg's The Adventures of Sherlock ,Project Gutenberg's The Girl and the Kingdom,0.413811620275
+Project Gutenberg's The Girl and the Kingdom,The Project Gutenberg EBook of A Kindergarten Stor,0.47119117027
+Project Gutenberg's The Girl and the Kingdom,﻿Project Gutenberg's The Adventures of Sherlock ,0.413811620275
+Project Gutenberg's The Girl and the Kingdom,﻿Project Gutenberg's The Return of Sherlock Holm,0.354527393605

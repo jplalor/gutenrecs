@@ -16,9 +16,9 @@ from scipy import io
 #also need to remove the '.txt'
 def format_name(filename):
     if (filename.find('-') > -1):
-        booknum = filename[:filename.index('-')]
+        booknum = filename[2:filename.index('-')]
     else:
-        booknum = filename[:filename.index('.')]
+        booknum = filename[2:filename.index('.')]
     return str(booknum)
 
 #The rest of this script imports the TF-IDF matrix and calculates the recommendations
@@ -32,14 +32,15 @@ print "converting matrix"
 new_matrix = loader.tocsr()
 #new_matrix = loader
 #load the book names so that we can match rows in the matrix with the book id
-#print "loading books"
-#loader2 = numpy.loadtxt('doc_names.txt', delimiter=',', dtype="string")
+print "loading books"
+loader2 = numpy.loadtxt('book_names.txt', delimiter=',', dtype="string")
 
 #print "convert to list"
-#doc_names_pre = loader2.tolist()
+doc_names_pre = loader2.tolist()
 
 #print "formatting"
 #doc_names = [format_name(x) for x in doc_names_pre]
+doc_names = doc_names_pre
 
 #calculate the cosine similarities and find the 20 highest recommendations
 print "start the similarity calculations"
@@ -53,7 +54,7 @@ while count < 4:
     #ignore the first result, which is the book itself (similarity of 1)
     books = similarities.argsort()[0][-11:-1]
     for i in reversed(books):
-        results.append([count,i, similarities[0][i]])
+        results.append([doc_names[count],doc_names[i], similarities[0][i]])
         #results.append([book, doc_names[i], similarities[0][i]])
     count +=1
 
