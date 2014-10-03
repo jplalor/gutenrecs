@@ -5,7 +5,7 @@ import scipy.io
 import numpy
 import csv
 import json
-from sklearn.metrics.pairwise import cosine_similarity
+#from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import csr_matrix
 from flask import Flask, render_template, request, url_for, jsonify
 from flask.ext.sqlalchemy import SQLAlchemy #, desc
@@ -69,12 +69,14 @@ def index():
     bootstrap = url_for('static', filename='ui-bootstrap-0.10.0.js')
     bootstraptpls = url_for('static', filename='ui-bootstrap-tpls-0.9.0.min.js')
     network_writeup = url_for('static', filename='networks_MLB.pdf')
+    lalorcv = url_for('static', filename='lalorcv.pdf')
 	
     return render_template('index.html',
         controller=controller,
         style=style,
         bootstraptpls=bootstraptpls,
-		network_writeup=network_writeup
+        network_writeup=network_writeup,
+        lalorcv=lalorcv
     )
 
 @app.route('/gutenrecs')
