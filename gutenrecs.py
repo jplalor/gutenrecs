@@ -108,7 +108,7 @@ def searchbook(bookid):
     searched_book = Book.query.filter_by(id=bookid).first().title
 
     #load the similarities flat file
-    similarities = numpy.loadtxt('similarities.txt', delimiter=',', dtype="string")
+    similarities = numpy.loadtxt('similarities_09262014.txt', delimiter=',', dtype="string")
 
     #find all similarities for the given book (20 per book)
     for a in similarities:
