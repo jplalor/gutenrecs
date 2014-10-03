@@ -31,3 +31,7 @@ for a in book_names:
     formatted_name = format_name(a)
     print 'getting results for ' + formatted_name
     getSimilarBooks(formatted_name)
+doc.close()
+print 'all done'
+
+
