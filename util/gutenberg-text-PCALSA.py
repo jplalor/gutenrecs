@@ -8,8 +8,8 @@ from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.feature_extraction.text import HashingVectorizer
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from scipy.sparse import vstack, csr_matrix
-from sklearn.decomposition import TruncatedSVD
+from scipy.sparse import vstack, csr_matrix, hstack
+from sklearn.decomposition import PCA, TruncatedSVD
 from scipy import io
 
 
@@ -28,8 +28,9 @@ vectorizer = HashingVectorizer(decode_error='ignore', n_features=2 ** 18,
 #initialize the TFIDF Transformer
 #transformer = TfidfTransformer()
 
-#initialize LSA transformer
-transformer = TruncatedSVD(n_components=100)
+#initialize transformer
+transformerPCA = PCA(n_components=50)
+transformerLSA = TruncatedSVD(n_components=50)
 
 #then do the hard work
 
@@ -100,14 +101,19 @@ working_matrix = z
 #scipy.io.mmwrite("testfile",working_matrix)
 #perform the tfidf transformation on the entire term count matrix
 #tfidf_model = transformer.fit_transform(working_matrix)
-lda_model = transformer.fit_transform(working_matrix)                   
+pca_model = transformerPCA.fit_transform(working_matrix)      
+lsa_model = transformerLSA.fit_transform(working_matrix)              
 
 
 #write the results to disk to be used in gutenberg-similarity.py
-lda_file_sparse = scipy.sparse.csr_matrix(lda_model)
-scipy.io.mmwrite("lda_file",lda_file_sparse)
-numpy.savetxt("book_names.txt",book_names,delimiter = ',', fmt="%s")
-numpy.savetxt("doc_names.txt",doc_names,delimiter = ',', fmt="%s")
+pca_file_sparse = scipy.sparse.csr_matrix(pca_model)
+lsa_file_sparse = scipy.sparse.csr_matrix(lsa_model)
+
+final_matrix = hstack([pca_file_sparse, lsa_file_sparse])
+scipy.io.mmwrite("pca_file",final_matrix)
+
+#numpy.savetxt("book_names.txt",book_names,delimiter = ',', fmt="%s")
+#numpy.savetxt("doc_names.txt",doc_names,delimiter = ',', fmt="%s")
 
 
 
